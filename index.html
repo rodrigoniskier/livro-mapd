@@ -20,6 +20,8 @@
   text-decoration: none;
   border-radius: 6px;
   margin-top: 30px; /* Dá um espaço em relação ao texto de cima */
+  border: none;          /* NOVO: Remove a borda padrão do botão */
+  cursor: pointer;       /* NOVO: Faz aparecer a "mãozinha" ao passar o rato */
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
@@ -105,9 +107,9 @@ Parte IV — Imunologia Clínica
 <div style="margin-bottom: 28px;"></div>
 <div class="cover-year">1ª Edição — 2026</div>
 
-<a href="meu_livro_formatado.docx" download="Livro_Mecanismos_de_Agressao.docx" class="btn-download">
-  📥 Baixar Versão Completa (DOCX)
-</a>
+<button onclick="gerarEBaixarWord()" class="btn-download">
+  📥 Gerar e Baixar Versão Word
+</button>
 
 </div>
 
@@ -3961,7 +3963,55 @@ Os inibidores de PD-1 (nivolumabe, pembrolizumabe) atuam bloqueando o receptor P
 </div>
 <div style="margin-top: 40px; font-size: 12px; opacity: 0.5;">1a Edição — 2026</div>
 </div>
+<script>
+function gerarEBaixarWord() {
+  // 1. Capturar todos os estilos CSS do livro (para preservar cores e tabelas)
+  var estilosCss = "";
+  var tagsEstilo = document.getElementsByTagName("style");
+  for (var i = 0; i < tagsEstilo.length; i++) {
+    estilosCss += tagsEstilo[i].innerHTML;
+  }
 
+  // 2. Capturar todo o conteúdo de texto e tabelas do livro
+  var conteudoLivro = document.body.innerHTML;
+
+  // 3. Montar a estrutura do documento que o Microsoft Word reconhece
+  var documentoCompleto = 
+    "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+    "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+    "xmlns='http://www.w3.org/TR/REC-html40'>" +
+    "<head>" +
+    "<meta charset='utf-8'>" +
+    "<title>Mecanismos de Agressão</title>" +
+    "<style>" + estilosCss + "</style>" +
+    "</head>" +
+    "<body>" + 
+    conteudoLivro + 
+    "</body>" +
+    "</html>";
+
+  // 4. Criar o arquivo virtual (Blob) na memória do navegador.
+  // O '\ufeff' é um marcador especial que força o Word a reconhecer a acentuação em Português (UTF-8).
+  var blob = new Blob(['\ufeff' + documentoCompleto], {
+    type: 'application/msword'
+  });
+
+  // 5. Criar um link invisível e temporário para disparar o download
+  var urlTemporaria = URL.createObjectURL(blob);
+  var linkDownload = document.createElement("a");
+  linkDownload.href = urlTemporaria;
+  
+  // Define o nome do arquivo final. 
+  // Nota: Usamos .doc porque o Word abre este formato HTML instantaneamente e sem alertas.
+  linkDownload.download = "Livro_Mecanismos_de_Agressao.doc";
+
+  // 6. Simular o clique do utilizador para baixar e limpar a memória
+  document.body.appendChild(linkDownload);
+  linkDownload.click();
+  document.body.removeChild(linkDownload);
+  URL.revokeObjectURL(urlTemporaria);
+}
+</script>
 
 </body>
 </html>
