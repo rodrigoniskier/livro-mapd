@@ -4,6 +4,18 @@ Página estática e responsiva com o conteúdo textual da obra de Prof. Rodrigo
 Niskier Ferreira Barbosa. O projeto não utiliza bibliotecas externas: estilos,
 conteúdo e interações estão reunidos no arquivo `index.html`.
 
+## Problema, público e resultado
+
+**Problema.** Ler um livro técnico em tela pede sumário, busca e boa leitura em qualquer dispositivo.
+
+**Para quem.** Estudantes e leitores da obra *Mecanismos de Agressão, Patológicos e de Defesa*.
+
+**O que entrega.** Página estática responsiva com sumário interativo, busca sem distinção de acentos, indicador de progresso de leitura, ajuste de fonte e impressão por capítulo.
+
+**Tecnologias.** HTML, CSS, JavaScript, GitHub Pages.
+
+**Qualidade e evidências.** Arquivo único e sem bibliotecas externas.
+
 ## Publicar no GitHub Pages
 
 1. Crie um repositório no GitHub ou abra um repositório existente.
